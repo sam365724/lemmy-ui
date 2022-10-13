@@ -55,7 +55,6 @@ export class App extends Component<any, any> {
                 <Route render={props => <NoMatch {...props} />} />
               </Switch>
             </div>
-            <Footer site={siteRes} />
           </div>
         </Provider>
       </>
