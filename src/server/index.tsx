@@ -211,9 +211,6 @@ server.get("/*", async (req, res) => {
            <meta charset="utf-8">
            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-           <!-- Web app manifest -->
-           <link rel="manifest" href="/static/assets/manifest.webmanifest">
-
            <!-- Styles -->
            <link rel="stylesheet" type="text/css" href="/static/styles/styles.css" />
 
