@@ -196,7 +196,6 @@ server.get("/*", async (req, res) => {
            <html ${helmet.htmlAttributes.toString()} lang="en">
            <head>
            <script>window.isoData = ${serializeO(isoData)}</script>
-           <script>window.lemmyConfig = ${serialize(config)}</script>
 
            <!-- A remote debugging utility for mobile -->
            ${erudaStr}
