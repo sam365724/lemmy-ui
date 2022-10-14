@@ -13,7 +13,6 @@ import { App } from "../shared/components/app/app";
 import { SYMBOLS } from "../shared/components/common/symbols";
 import { httpBaseInternal } from "../shared/env";
 import {
-  ILemmyConfig,
   InitialFetchRequest,
   IsoData,
 } from "../shared/interfaces";
@@ -78,22 +77,7 @@ server.get("/css/themes/:name", async (req, res) => {
 
 function buildThemeList(): string[] {
   let themes = [
-    "litera",
-    "materia",
-    "minty",
-    "solar",
-    "united",
-    "cyborg",
-    "darkly",
-    "darkly-red",
-    "journal",
-    "sketchy",
-    "vaporwave",
-    "vaporwave-dark",
-    "i386",
-    "litely",
-    "litely-red",
-    "nord",
+    "darkly"
   ];
   if (fs.existsSync(extraThemesFolder)) {
     let dirThemes = fs.readdirSync(extraThemesFolder);
@@ -143,8 +127,8 @@ server.get("/*", async (req, res) => {
       try_site = await initialFetchReq.client.getSite(getSiteForm);
     }
     let site: GetSiteResponse = try_site;
-    if (req.path !== "/setup" && !site.site_view) {
-      return res.redirect("/setup");
+    if (req.path !== "/login" && !site.site_view) {
+      return res.redirect("/login");
     }
     initializeSite(site);
 
@@ -158,11 +142,13 @@ server.get("/*", async (req, res) => {
     if (routeData[0] && routeData[0].error) {
       let errCode = routeData[0].error;
       console.error(errCode);
-      if (errCode == "instance_is_private") {
-        return res.redirect(`/signup`);
-      } else {
-        return res.send(`404: ${removeAuthParam(errCode)}`);
-      }
+      return res.redirect(`/login`);
+
+      // if (errCode == "instance_is_private") {
+      //   return res.redirect(`/login`);
+      // } else {
+      //   return res.send(`404: ${removeAuthParam(errCode)}`);
+      // }
     }
 
     let isoData: IsoData = {
@@ -191,14 +177,13 @@ server.get("/*", async (req, res) => {
     const symbols = renderToString(SYMBOLS);
     const helmet = Helmet.renderStatic();
 
-    const config: ILemmyConfig = { wsHost: process.env.LEMMY_WS_HOST };
+    //const config: ILemmyConfig = { wsHost: process.env.LEMMY_WS_HOST };
 
     res.send(`
            <!DOCTYPE html>
            <html ${helmet.htmlAttributes.toString()} lang="en">
            <head>
            <script>window.isoData = ${serialize(isoData)}</script>
-           <script>window.lemmyConfig = ${serialize(config)}</script>
 
            <!-- A remote debugging utility for mobile -->
            ${erudaStr}
@@ -210,12 +195,9 @@ server.get("/*", async (req, res) => {
            ${helmet.meta.toString()}
 
            <!-- Required meta tags -->
-           <meta name="Description" content="Lemmy">
+           <meta name="Description" content="">
            <meta charset="utf-8">
            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-           <!-- Web app manifest -->
-           <link rel="manifest" href="/static/assets/manifest.webmanifest">
 
            <!-- Styles -->
            <link rel="stylesheet" type="text/css" href="/static/styles/styles.css" />

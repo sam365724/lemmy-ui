@@ -6,7 +6,6 @@ import { GetSiteResponse } from "lemmy-js-client";
 import { i18n } from "../../i18next";
 import { routes } from "../../routes";
 import { favIconPngUrl, favIconUrl } from "../../utils";
-import { Footer } from "./footer";
 import { Navbar } from "./navbar";
 import { NoMatch } from "./no-match";
 import "./styles.scss";
@@ -62,7 +61,6 @@ export class App extends Component<AppProps, any> {
                 <Route render={props => <NoMatch {...props} />} />
               </Switch>
             </div>
-            <Footer site={this.props.siteRes} />
           </div>
         </Provider>
       </>
